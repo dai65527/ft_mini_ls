@@ -6,12 +6,12 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 14:45:27 by dnakano           #+#    #+#             */
-/*   Updated: 2020/12/03 16:31:26 by dnakano          ###   ########.fr       */
+/*   Updated: 2020/12/04 08:05:21 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MINI_LS
-# define FT_MINI_LS
+#ifndef FT_MINI_LS_H
+# define FT_MINI_LS_H
 
 # include <sys/types.h>
 # include <sys/stat.h>
