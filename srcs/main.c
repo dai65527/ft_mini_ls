@@ -6,12 +6,11 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 14:44:53 by dnakano           #+#    #+#             */
-/*   Updated: 2020/12/04 07:40:58 by dnakano          ###   ########.fr       */
+/*   Updated: 2020/12/04 07:46:56 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/errno.h>
 #include <dirent.h>
