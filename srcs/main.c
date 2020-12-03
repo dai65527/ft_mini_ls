@@ -6,21 +6,38 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 14:44:53 by dnakano           #+#    #+#             */
-/*   Updated: 2020/12/04 00:10:59 by dnakano          ###   ########.fr       */
+/*   Updated: 2020/12/04 07:40:58 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/errno.h>
 #include <dirent.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "libft.h"
 #include "ft_mini_ls.h"
 
-int		mls_errend(void)
+int		mls_errend(char *str)
 {
-	ft_putstr_fd("\n", FD_STDERR);
+	char	buf[1024];
+
+	errno = ENOSPC;
+	ft_putstr_fd("ft_mini_ls: ", FD_STDERR);
+	if (str)
+	{
+		ft_putstr_fd(str, FD_STDERR);
+		ft_putstr_fd(": ", FD_STDERR);
+	}
+	if (!errno)
+		ft_putstr_fd(": No arguments allowed\n", FD_STDERR);
+	else
+	{
+		perror(buf);
+		ft_putstr_fd(buf, FD_STDERR);
+	}
 	return (1);
 }
 
@@ -38,7 +55,7 @@ t_list	*mls_makedirlst(DIR *dptr)
 			continue ;
 		ddata = (t_dirdata *)malloc(sizeof(t_dirdata));
 		ft_strlcpy(ddata->name, dent->d_name, __DARWIN_MAXPATHLEN);
-		if ((ret = stat(ddata->name, &ddata->stat)))
+		if ((ret = lstat(ddata->name, &ddata->stat)))
 			return (NULL);
 		ft_lstadd_back(&dlst, ft_lstnew(ddata));
 	}
@@ -71,16 +88,18 @@ int		main(int argc, char **argv)
 	DIR				*dptr;
 	t_list			*dlst;
 
-	(void)argv;
 	dlst = NULL;
 	if (argc != 1)
-		return (mls_errend());
+		return (mls_errend(argv[1]));
 	if (!(dptr = opendir(".")))
-		return (mls_errend());
+		return (mls_errend("."));
 	dlst = mls_makedirlst(dptr);
 	closedir(dptr);
 	if (!dlst)
-		return (mls_errend());
+	{
+		ft_lstclear(&dlst, free);
+		return (mls_errend(NULL));
+	}
 	ft_lstsort(&dlst, mls_cmp_atime);
 	ft_lstiter(dlst, mls_put_dname);
 	ft_lstclear(&dlst, free);
