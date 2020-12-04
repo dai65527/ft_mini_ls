@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 14:44:53 by dnakano           #+#    #+#             */
-/*   Updated: 2020/12/04 07:46:56 by dnakano          ###   ########.fr       */
+/*   Updated: 2020/12/04 10:18:14 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int		mls_errend(char *str)
 {
 	char	buf[1024];
 
-	errno = ENOSPC;
 	ft_putstr_fd("ft_mini_ls: ", FD_STDERR);
 	if (str)
 	{
