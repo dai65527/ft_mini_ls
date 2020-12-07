@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 14:44:53 by dnakano           #+#    #+#             */
-/*   Updated: 2020/12/04 10:18:14 by dnakano          ###   ########.fr       */
+/*   Updated: 2020/12/07 10:50:39 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 
 int		mls_errend(char *str)
 {
-	char	buf[1024];
-
 	ft_putstr_fd("ft_mini_ls: ", FD_STDERR);
 	if (str)
 	{
@@ -32,10 +30,7 @@ int		mls_errend(char *str)
 	if (!errno)
 		ft_putstr_fd(": No arguments allowed\n", FD_STDERR);
 	else
-	{
-		perror(buf);
-		ft_putstr_fd(buf, FD_STDERR);
-	}
+		perror("");
 	return (1);
 }
 
@@ -54,7 +49,10 @@ t_list	*mls_makedirlst(DIR *dptr)
 		ddata = (t_dirdata *)malloc(sizeof(t_dirdata));
 		ft_strlcpy(ddata->name, dent->d_name, __DARWIN_MAXPATHLEN);
 		if ((ret = lstat(ddata->name, &ddata->stat)))
+		{
+			printf("ret = %d\n", ret);
 			return (NULL);
+		}
 		ft_lstadd_back(&dlst, ft_lstnew(ddata));
 	}
 	return (dlst);
@@ -93,7 +91,7 @@ int		main(int argc, char **argv)
 		return (mls_errend("."));
 	dlst = mls_makedirlst(dptr);
 	closedir(dptr);
-	if (!dlst)
+	if (errno)
 	{
 		ft_lstclear(&dlst, free);
 		return (mls_errend(NULL));
